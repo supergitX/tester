@@ -1,7 +1,7 @@
 import requests
 import os
-from dotenv import load_dotenv
-load_dotenv()
+#from dotenv import load_dotenv
+#load_dotenv()
 # Groq API Configuration
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")  # Store API Key securely in GitHub Secrets
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
