@@ -1,4 +1,3 @@
-```python
 from reviewed_code import factorial
 
 def test_factorial_negative():
@@ -15,4 +14,6 @@ def test_factorial_positive():
 
 def test_factorial_larger_number():
     assert factorial(10) == 3628800
-```
+
+def test_factorial_large_number():
+    assert factorial(20) == 2432902008176640000
