@@ -46,7 +46,9 @@ response = requests.post(
 # Parse response
 if response.status_code == 200:
     test_code = response.json()["choices"][0]["message"]["content"]
-    
+
+    # Remove Markdown code blocks if present
+    test_code = test_code.strip("```python").strip("```").strip()
     # Save generated tests to file
     with open("test_reviewed_code.py", "w") as test_file:
         test_file.write(test_code)
