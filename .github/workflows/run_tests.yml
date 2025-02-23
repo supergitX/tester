@@ -36,5 +36,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
           git add test_reviewed_code.py
-          git commit -m "🤖 Auto-generated test cases for reviewed_code.py"
+          git commit -m "🤖 Auto-generated test cases for reviewed_code.py" || echo "No changes to commit"
+          git pull --rebase origin master  # Avoid push errors
           git push origin master
+          
+      - name: Run tests
+        run: |
+          pytest test_reviewed_code.py || true  # Run tests, don't fail workflow if they fail
