@@ -1,0 +1,36 @@
+name: Run Tests on Reviewed Code
+
+on:
+  push:
+    branches:
+      - master  # Runs on every push to master
+    paths:
+      - "reviewed_code.py"  # Only trigger if reviewed code is updated
+      - "test_reviewed_code.py"  # Also trigger if test file is updated
+
+jobs:
+  test_code:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: Install Dependencies
+        run: pip install pytest
+
+      - name: Run Unit Tests
+        run: pytest test_reviewed_code.py
+
+      - name: Notify if Tests Fail
+        if: failure()
+        run: echo "❌ Tests failed! Fix errors before pushing new code."
+
+      - name: Confirm Success
+        if: success()
+        run: echo "✅ All tests passed! Code is good to go."
