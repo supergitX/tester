@@ -14,3 +14,9 @@ def test_factorial_small_number():
 
 def test_factorial_large_number():
     assert factorial(10) == 3628800
+
+def test_factorial_ten():
+    assert factorial(10) == 3628800
+
+def test_factorial_twenty():
+    assert factorial(20) == 2432902008176640000
