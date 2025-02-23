@@ -3,34 +3,38 @@ name: Run Tests on Reviewed Code
 on:
   push:
     branches:
-      - master  # Runs on every push to master
-    paths:
-      - "reviewed_code.py"  # Only trigger if reviewed code is updated
-      - "test_reviewed_code.py"  # Also trigger if test file is updated
+      - master
+
+permissions:
+  contents: write  # Allows pushing commits
 
 jobs:
-  test_code:
+  run-tests:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true  # Ensures Actions can push changes
 
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.10"
 
-      - name: Install Dependencies
-        run: pip install pytest
+      - name: Install dependencies
+        run: pip install requests pytest
 
-      - name: Run Unit Tests
-        run: pytest test_reviewed_code.py
+      - name: Generate test cases
+        run: python generate_tests.py
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
-      - name: Notify if Tests Fail
-        if: failure()
-        run: echo "❌ Tests failed! Fix errors before pushing new code."
-
-      - name: Confirm Success
-        if: success()
-        run: echo "✅ All tests passed! Code is good to go."
+      - name: Commit and push generated test file
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions@github.com"
+          git add test_reviewed_code.py
+          git commit -m "🤖 Auto-generated test cases for reviewed_code.py"
+          git push --force origin master
