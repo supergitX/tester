@@ -11,6 +11,7 @@ with open("reviewed_code.py", "r") as file:
     reviewed_code = file.read()
 
 # Define the prompt for generating test cases
+# Define the prompt for generating test cases
 prompt = f"""
 Generate unit tests using pytest for the following Python code:
 
@@ -20,8 +21,10 @@ Ensure:
 - Test coverage for different scenarios.
 - Proper function validation.
 - Meaningful assertions.
+- Include "from reviewed_code import <function_name>" at the top.
 Provide only the code output, no extra explanations.
 """
+
 
 # API request payload
 payload = {
@@ -51,3 +54,5 @@ if response.status_code == 200:
     print("✅ Test cases successfully generated and saved!")
 else:
     print(f"❌ Error: {response.status_code} - {response.text}")
+
+
