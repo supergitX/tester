@@ -1,9 +1,19 @@
 import requests
 import os
-#from dotenv import load_dotenv
-#load_dotenv()
+
 # Groq API Configuration
-GROQ_API_KEY = os.getenv("GROQ_API_KEY")  # Store API Key securely in GitHub Secrets
+# Load API key from environment variables (GitHub) or .env file (local)
+GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+
+if not GROQ_API_KEY:
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+        GROQ_API_KEY = os.getenv("GROQ_API_KEY")
+    except ModuleNotFoundError:
+        print("❌ Error: Missing API key. Set GROQ_API_KEY as an environment variable.")
+        exit(1)
+        
 GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
 
 # Read the reviewed code
