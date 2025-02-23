@@ -37,4 +37,4 @@ jobs:
           git config --global user.email "github-actions@github.com"
           git add test_reviewed_code.py
           git commit -m "🤖 Auto-generated test cases for reviewed_code.py"
-          git push --force origin master
+          git push origin master
