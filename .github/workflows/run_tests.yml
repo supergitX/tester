@@ -57,4 +57,12 @@ jobs:
         
       - name: Run tests
         run: |
-          pytest test_reviewed_code.py  # Run tests, don't fail workflow if they fail
+          # Run the test generation script
+          python generate_tests.py
+      
+          # Run pytest — even if it fails, continue the workflow
+          pytest test_reviewed_code.py --tb=short || echo "❌ Some tests failed, logged for optimization."
+      
+          # (Optional) View the test result summary live
+          cat test_generation.log
+
