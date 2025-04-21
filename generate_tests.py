@@ -95,17 +95,28 @@ else:
     print(f"❌ API Error: {response.status_code}")
 
 # ────── Run Tests and Log Output ──────
+# ────── Run Tests and Log Output ──────
 try:
     result = subprocess.run(
-        ["pytest", "test_reviewed_code.py"],
+        ["pytest", "test_reviewed_code.py", "--tb=short", "--maxfail=5"],
         capture_output=True,
         text=True
     )
+    test_output = result.stdout + result.stderr
+
     with open(log_file, "a") as f:
         f.write("\n\n===== 🧪 Pytest Output =====\n")
-        f.write(result.stdout)
-        f.write(result.stderr)
-    logging.info("🧪 Test results logged.")
-    print("🧪 Test run complete.")
+        f.write(test_output)
+
+    if result.returncode != 0:
+        logging.error("❌ One or more tests failed.")
+        logging.error("❌ Failed Tests Details:\n" + test_output)
+        print("❌ One or more tests failed. See log for details.")
+    else:
+        logging.info("✅ All tests passed.")
+        print("✅ All tests passed.")
+
 except Exception as e:
     logging.error(f"❌ Failed to run tests: {e}")
+    print("❌ Error while running tests.")
+
