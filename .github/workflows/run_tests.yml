@@ -57,4 +57,4 @@ jobs:
         
       - name: Run tests
         run: |
-          pytest test_reviewed_code.py || true  # Run tests, don't fail workflow if they fail
+          pytest test_reviewed_code.py  # Run tests, don't fail workflow if they fail
