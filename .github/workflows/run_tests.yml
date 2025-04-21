@@ -49,7 +49,9 @@ jobs:
           git pull --rebase --strategy-option=theirs origin test || echo "Ignoring merge conflicts"
           
           git push origin test --force  # Force push to overwrite conflicts
-          
+      - name: Switch to test branch for running tests
+        run: git checkout test
+        
       - name: Run tests
         run: |
           pytest test_reviewed_code.py || true  # Run tests, don't fail workflow if they fail
