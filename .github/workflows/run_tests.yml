@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    paths:
+      - reviewed_code.py
   workflow_dispatch:
 permissions:
   contents: write  # Allows pushing commits
@@ -36,26 +38,20 @@ jobs:
           git checkout test || git checkout -b test
       - name: Commit and push generated test file to test branch
         run: |
+      - name: Commit and push generated files
+        run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
-          git add test_reviewed_code.py
-          git commit -m "🤖 Auto-generated test cases for reviewed_code.py" || echo "No changes to commit"
+          git checkout test
+
+          git add test_reviewed_code.py test_generation.log
+          git commit -m "🧪 Added auto-generated test + logs" || echo "No changes"
           
           # Pull latest changes and auto-resolve conflicts
           git pull --rebase --strategy-option=theirs origin test || echo "Ignoring merge conflicts"
           
           git push origin test --force  # Force push to overwrite conflicts
           
-      - name: Save and push test log with timestamp to test branch
-        run: |
-          TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-          LOG_FILE="test_generation_$TIMESTAMP.log"
-          cp test_generation.log "$LOG_FILE"
-
-          git add "$LOG_FILE"
-          git commit -m "📝 Add test generation log $LOG_FILE" || echo "No changes to commit"
-          git push origin test --force
-
       - name: Run tests
         run: |
           pytest test_reviewed_code.py || true  # Run tests, don't fail workflow if they fail
