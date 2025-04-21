@@ -30,8 +30,11 @@ jobs:
         run: python generate_tests.py
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-
-      - name: Commit and push generated test file
+      - name: Checkout and switch to test branch
+        run: |
+          git fetch origin
+          git checkout test || git checkout -b test
+      - name: Commit and push generated test file to test branch
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
@@ -39,9 +42,9 @@ jobs:
           git commit -m "🤖 Auto-generated test cases for reviewed_code.py" || echo "No changes to commit"
           
           # Pull latest changes and auto-resolve conflicts
-          git pull --rebase --strategy-option=theirs origin master || echo "Ignoring merge conflicts"
+          git pull --rebase --strategy-option=theirs origin test || echo "Ignoring merge conflicts"
           
-          git push origin master --force  # Force push to overwrite conflicts
+          git push origin test --force  # Force push to overwrite conflicts
           
       - name: Run tests
         run: |
