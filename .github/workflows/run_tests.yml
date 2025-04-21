@@ -36,21 +36,24 @@ jobs:
         run: |
           git fetch origin
           git checkout test || git checkout -b test
+
+      - name: Copy Reviewed code from master to test
+        run: |
+         git checkout origin/master -- reviewed_code.py
+         
       - name: Commit and push generated test file to test branch
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
           git checkout test
 
-          git add test_reviewed_code.py test_generation.log
+          git add reviewed_code.py test_reviewed_code.py test_generation.log
           git commit -m "🧪 Added auto-generated test + logs" || echo "No changes"
           
           # Pull latest changes and auto-resolve conflicts
           git pull --rebase --strategy-option=theirs origin test || echo "Ignoring merge conflicts"
           
           git push origin test --force  # Force push to overwrite conflicts
-      - name: Switch to test branch for running tests
-        run: git checkout test
         
       - name: Run tests
         run: |
