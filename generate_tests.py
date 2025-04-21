@@ -1,6 +1,7 @@
 import requests
 import os
 import logging
+import subprocess
 from datetime import datetime
 
 # ────── Logging Configuration ──────
@@ -92,3 +93,19 @@ if response.status_code == 200:
 else:
     logging.error(f"❌ API error: {response.status_code} - {response.text}")
     print(f"❌ API Error: {response.status_code}")
+
+# ────── Run Tests and Log Output ──────
+try:
+    result = subprocess.run(
+        ["pytest", "test_reviewed_code.py"],
+        capture_output=True,
+        text=True
+    )
+    with open(log_file, "a") as f:
+        f.write("\n\n===== 🧪 Pytest Output =====\n")
+        f.write(result.stdout)
+        f.write(result.stderr)
+    logging.info("🧪 Test results logged.")
+    print("🧪 Test run complete.")
+except Exception as e:
+    logging.error(f"❌ Failed to run tests: {e}")
