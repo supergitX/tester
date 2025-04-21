@@ -46,16 +46,16 @@ Generate unit tests using pytest for the following Python code:
 
 {reviewed_code}
 
-Ensure:
-- Achieve high test coverage by considering various input scenarios, including edge cases.
-- Validate the correctness of each function's behavior.
-- Use meaningful and descriptive assertions.
-- Import the necessary functions at the beginning of the test file using 'from reviewed_code import <function_name>'.
-- Do not include any explanations or comments; provide only the test code.
+Requirements:
+- Test both valid and invalid inputs.
+- Include edge cases, such as None, negative values, empty strings, zero, large values, etc.
+- Validate incorrect behavior: tests MUST fail if the logic in reviewed_code.py is wrong.
+- Use meaningful assertions that will fail if code is incorrect.
+- Import using 'from reviewed_code import <function>'.
+- Only output raw test code. No explanations. No markdown. Just test code.
 
-Ensure the tests are organized and follow best practices for pytest.
+These tests should enforce correctness, not just check if the function runs.
 """
-
 
 
 # ────── Payload ──────
@@ -93,25 +93,29 @@ if response.status_code == 200:
 else:
     logging.error(f"❌ API error: {response.status_code} - {response.text}")
     print(f"❌ API Error: {response.status_code}")
-
-# ────── Run Tests and Log Output ──────
+    
 # ────── Run Tests and Log Output ──────
 try:
     result = subprocess.run(
-        ["pytest", "test_reviewed_code.py", "--tb=short", "--maxfail=5"],
+        ["pytest", "test_reviewed_code.py", "--tb=short"],
         capture_output=True,
         text=True
     )
-    test_output = result.stdout + result.stderr
+    
+    test_output = result.stdout + "\n" + result.stderr
 
+    # Write to log with timestamp
     with open(log_file, "a") as f:
-        f.write("\n\n===== 🧪 Pytest Output =====\n")
+        f.write(f"\n\n======= 🚀 Test Run - {datetime.now()} =======\n")
+        f.write("===== 🧪 Pytest Output =====\n")
         f.write(test_output)
+
+    # Print to console
+    print(test_output)
 
     if result.returncode != 0:
         logging.error("❌ One or more tests failed.")
-        logging.error("❌ Failed Tests Details:\n" + test_output)
-        print("❌ One or more tests failed. See log for details.")
+        print("❌ Tests failed. Check log.")
     else:
         logging.info("✅ All tests passed.")
         print("✅ All tests passed.")
