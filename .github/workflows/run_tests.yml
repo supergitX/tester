@@ -46,6 +46,16 @@ jobs:
           
           git push origin test --force  # Force push to overwrite conflicts
           
+      - name: Save and push test log with timestamp to test branch
+        run: |
+          TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+          LOG_FILE="test_generation_$TIMESTAMP.log"
+          cp test_generation.log "$LOG_FILE"
+
+          git add "$LOG_FILE"
+          git commit -m "📝 Add test generation log $LOG_FILE" || echo "No changes to commit"
+          git push origin test --force
+
       - name: Run tests
         run: |
           pytest test_reviewed_code.py || true  # Run tests, don't fail workflow if they fail
