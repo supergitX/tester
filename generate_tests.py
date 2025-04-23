@@ -117,7 +117,7 @@ try:
         f.write(test_output)
 
     # Print to console
-    print(test_output)
+    #print(test_output)
 
     if result.returncode != 0:
         logging.error("❌ One or more tests failed.")
