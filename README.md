@@ -44,6 +44,7 @@ Failures and logs are stored in test_generation.log.
 
 Your optimization agent (AI or human) can use this log to fix the code.
 
+---
 
 ### 4. File Structure
 
