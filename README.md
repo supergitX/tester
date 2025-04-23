@@ -47,7 +47,7 @@ Your optimization agent (AI or human) can use this log to fix the code.
 
 ### 4. File Structure
 
-.
+```.
 ├── .github/
 │   └── workflows/
 │       └── run_tests.yml        # GitHub Action workflow
@@ -57,6 +57,7 @@ Your optimization agent (AI or human) can use this log to fix the code.
 ├── test_generation.log          # Test failures & explanations
 └── README.md                    # You're here!
 
+```
 ### 5. Running Manually
 ``` python
 python generate_tests.py
