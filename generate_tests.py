@@ -2,6 +2,7 @@ import requests
 import os
 import logging
 import subprocess
+import textwrap
 from datetime import datetime
 
 # ────── Logging Configuration ──────
@@ -86,6 +87,9 @@ except Exception as e:
 if response.status_code == 200:
     test_code = response.json()["choices"][0]["message"]["content"]
     test_code = test_code.strip("```python").strip("```").strip()
+
+    test_code = textwrap.dedent(test_code)
+
     
     with open("test_reviewed_code.py", "w") as test_file:
         test_file.write(test_code)
@@ -99,7 +103,7 @@ else:
 # ────── Run Tests and Log Output ──────
 try:
     result = subprocess.run(
-        ["pytest", "test_reviewed_code.py", "--tb=short"],
+        ["pytest", "test_reviewed_code.py", "--tb=short", "--capture=tee-sys"],
         capture_output=True,
         text=True
     )
