@@ -42,6 +42,8 @@ except FileNotFoundError:
 
 # ────── Prompt ──────
 prompt = f"""
+You are a **Test Case Generator** for given Python code.  
+Your goal is to produce a suite of pytest tests that thoroughly validate the given code.
 Generate unit tests using pytest for the following Python code:
 
 {reviewed_code}
