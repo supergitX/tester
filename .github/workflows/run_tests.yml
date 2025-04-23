@@ -27,10 +27,16 @@ jobs:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install requests pytest python-dotenv
+        run: pip install -r requirements.txt
 
       - name: Generate and run test cases on master
-        run: python generate_tests.py
+        run: |
+          echo "======= 🚀 Test Run - $(date) =======" >> test_generation.log
+          echo "===== 🧪 Running Python Test Case Generation =====" >> test_generation.log
+          python generate_tests.py >> test_generation.log 2>&1
+
+          echo "===== 🧪 Pytest Output =====" >> test_generation.log
+          pytest test_reviewed_code.py -v --tb=long | tee -a test_generation.log || true
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
@@ -39,12 +45,8 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions@github.com"
 
-          # Create/switch to test branch
           git checkout -B test
 
-          # Add only generated files
           git add test_reviewed_code.py test_generation.log reviewed_code.py
-          git commit -m "🧪 Auto: generated tests + log from master" || echo "No changes to commit"
-
-          # Force push to overwrite with latest results
+          git commit -m "🧪 Auto: generated tests + detailed log from master" || echo "No changes to commit"
           git push origin test --force
