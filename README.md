@@ -64,6 +64,8 @@ python generate_tests.py
 pytest test_reviewed_code.py --tb=short
 cat test_generation.log
 ```
+---
+
 ### 6. Setting up Secrets
 To enable test generation via LLM (GROQ or other APIs):
 
@@ -74,6 +76,8 @@ Add your API key:
 Name: API_KEY NAME
 
 Value: your_api_key_here
+
+---
 
 ### 7. Customization
 Modify generate_tests.py to change how tests are generated
