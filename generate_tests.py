@@ -111,13 +111,14 @@ try:
     test_output = result.stdout + "\n" + result.stderr
 
     # Write to log with timestamp
-    with open(log_file, "a") as f:
-        f.write(f"\n\n======= 🚀 Test Run - {datetime.now()} =======\n")
-        f.write("===== 🧪 Pytest Output =====\n")
-        f.write(test_output)
+    #with open(log_file, "a") as f:
+       # f.write(f"\n\n======= 🚀 Test Run - {datetime.now()} =======\n")
+       # f.write("===== 🧪 Pytest Output =====\n")
+       # f.write(test_output)
 
     # Print to console
     #print(test_output)
+    logging.info(f"===== 🧪 Pytest Output =====\n{test_output}")
 
     if result.returncode != 0:
         logging.error("❌ One or more tests failed.")
