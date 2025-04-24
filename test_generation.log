@@ -1,0 +1,56 @@
+======= 🚀 Test Run - Thu Apr 24 10:27:57 UTC 2025 =======
+===== 🧪 Running Python Test Case Generation =====
+2025-04-24 10:27:57,335 - INFO - 🔧 Starting test generation process
+2025-04-24 10:27:57,335 - INFO - ✅ Successfully read reviewed_code.py
+2025-04-24 10:27:58,747 - INFO - ✅ Test cases generated and saved successfully
+2025-04-24 10:27:59,235 - INFO - ===== 🧪 Pytest Output =====
+============================= test session starts ==============================
+platform linux -- Python 3.10.17, pytest-8.3.5, pluggy-1.5.0
+rootdir: /home/runner/work/tester/tester
+collected 7 items
+
+test_reviewed_code.py ......F                                            [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_factorial_negative_zero _________________________
+test_reviewed_code.py:38: in test_factorial_negative_zero
+    assert factorial(-0) == "Factorial is not defined for negative numbers."
+E   AssertionError: assert 1 == 'Factorial is not defined for negative numbers.'
+E    +  where 1 = factorial(-0)
+=========================== short test summary info ============================
+FAILED test_reviewed_code.py::test_factorial_negative_zero - AssertionError: assert 1 == 'Factorial is not defined for negative numbers.'
+ +  where 1 = factorial(-0)
+========================= 1 failed, 6 passed in 0.03s ==========================
+
+
+2025-04-24 10:27:59,235 - ERROR - ❌ One or more tests failed.
+✅ Test cases generated and saved successfully!
+❌ Tests failed. Check log.
+===== 🧪 Pytest Output =====
+============================= test session starts ==============================
+platform linux -- Python 3.10.17, pytest-8.3.5, pluggy-1.5.0 -- /opt/hostedtoolcache/Python/3.10.17/x64/bin/python
+cachedir: .pytest_cache
+rootdir: /home/runner/work/tester/tester
+collecting ... collected 7 items
+
+test_reviewed_code.py::test_factorial_valid_input PASSED                 [ 14%]
+test_reviewed_code.py::test_factorial_invalid_input PASSED               [ 28%]
+test_reviewed_code.py::test_factorial_edge_cases PASSED                  [ 42%]
+test_reviewed_code.py::test_factorial_large_input PASSED                 [ 57%]
+test_reviewed_code.py::test_factorial_invalid_input_type PASSED          [ 71%]
+test_reviewed_code.py::test_factorial_float_input PASSED                 [ 85%]
+test_reviewed_code.py::test_factorial_negative_zero FAILED               [100%]
+
+=================================== FAILURES ===================================
+_________________________ test_factorial_negative_zero _________________________
+
+    def test_factorial_negative_zero():
+>       assert factorial(-0) == "Factorial is not defined for negative numbers."
+E       AssertionError: assert 1 == 'Factorial is not defined for negative numbers.'
+E        +  where 1 = factorial(-0)
+
+test_reviewed_code.py:38: AssertionError
+=========================== short test summary info ============================
+FAILED test_reviewed_code.py::test_factorial_negative_zero - AssertionError: assert 1 == 'Factorial is not defined for negative numbers.'
+ +  where 1 = factorial(-0)
+========================= 1 failed, 6 passed in 0.03s ==========================
